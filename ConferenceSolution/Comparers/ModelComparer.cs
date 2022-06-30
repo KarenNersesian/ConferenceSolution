@@ -6,6 +6,7 @@ namespace ConferenceSolution.Comparers
     {
         public abstract bool Equals(IModel? x, IModel? y);
 
+
         public abstract int GetHashCode([DisallowNull] IModel obj);
     }
 }
