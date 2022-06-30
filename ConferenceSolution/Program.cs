@@ -1,4 +1,5 @@
-using ConferenceSolution.Data;
+using ConferenceSolution.DB;
+using ConferenceSolution.Repos;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

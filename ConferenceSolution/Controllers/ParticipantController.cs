@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using ConferenceSolution.Comparers;
-using ConferenceSolution.Data;
 using ConferenceSolution.DTOS;
 using ConferenceSolution.Models;
+using ConferenceSolution.Repos;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ConferenceSolution.Controllers
 {
@@ -20,7 +18,7 @@ namespace ConferenceSolution.Controllers
             this.repository = repository;
             this.mapper = mapper;
         }
-        // GET: api/<ValuesController>
+
         [HttpGet]
         public ActionResult<IEnumerable<ParticipantReadDTO>> GetAll()
         {
@@ -29,7 +27,6 @@ namespace ConferenceSolution.Controllers
             return Ok(mapper.Map<IEnumerable<ParticipantReadDTO>>(participants));
         }
 
-        // GET api/<ValuesController>/5
         [HttpGet("{id}")]
         public ActionResult<ParticipantReadDTO> Get(string id)
         {
@@ -41,9 +38,8 @@ namespace ConferenceSolution.Controllers
             return Ok(mapper.Map<ParticipantReadDTO>(participant));
         }
 
-        // POST api/<ValuesController>
         [HttpPost]
-        public void Post([FromBody] ParticipantCreateDTO participantCreateDTO)
+        public void Post([FromBody] ParticipantWriteDTO participantCreateDTO)
         {
             IModel participant = mapper.Map<Participant>(participantCreateDTO);
 
@@ -51,18 +47,21 @@ namespace ConferenceSolution.Controllers
             repository.SaveChanges();
         }
 
-        // PUT api/<ValuesController>/5
         [HttpPut("{id}")]
-        public void Put(string id, [FromBody] ParticipantCreateDTO participantCreateDTO)
+        public void Put(string id, [FromBody] ParticipantWriteDTO participantCreateDTO)
         {
             Participant participant = mapper.Map<Participant>(participantCreateDTO);
 
+            repository.Update(id, participant);
+            repository.SaveChanges();
+
         }
 
-        // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(string id)
         {
+            repository.Delete(id);
+            repository.SaveChanges();
         }
     }
 }

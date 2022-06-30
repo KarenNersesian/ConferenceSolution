@@ -1,7 +1,7 @@
 ﻿using ConferenceSolution.Comparers;
 using ConferenceSolution.Models;
 
-namespace ConferenceSolution.Data
+namespace ConferenceSolution.Repos
 {
     public interface IParticipantRepo
     {
@@ -10,5 +10,7 @@ namespace ConferenceSolution.Data
         IModel? GetById(string id);
         void Create(IModel model);
         void Create(IModel model, IEqualityComparer<Participant> comparer);
+        public void Update(string id, IModel model);
+        public void Delete(string id);
     }
 }

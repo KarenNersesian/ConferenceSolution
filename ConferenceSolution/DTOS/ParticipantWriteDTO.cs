@@ -2,7 +2,7 @@
 
 namespace ConferenceSolution.DTOS
 {
-    public class ParticipantCreateDTO
+    public class ParticipantWriteDTO
     {
         [Required]
         public string Name { get; set; }

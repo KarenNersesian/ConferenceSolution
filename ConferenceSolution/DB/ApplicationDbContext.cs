@@ -1,7 +1,7 @@
 ﻿using ConferenceSolution.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ConferenceSolution.Data
+namespace ConferenceSolution.DB
 {
     public class ApplicationDbContext : DbContext
     {

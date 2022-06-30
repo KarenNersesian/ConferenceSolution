@@ -1,8 +1,9 @@
 ﻿using ConferenceSolution.Comparers;
+using ConferenceSolution.DB;
 using ConferenceSolution.Models;
 using System.Diagnostics.CodeAnalysis;
 
-namespace ConferenceSolution.Data
+namespace ConferenceSolution.Repos
 {
     public class ParticipantRepo : IParticipantRepo
     {
@@ -31,6 +32,13 @@ namespace ConferenceSolution.Data
             context?.Participants.Add(participant);
         }
 
+        public void Delete(string id)
+        {
+            Participant participant = context.Participants.First(x => x.Id == id);
+
+            context.Participants.Remove(participant);
+        }
+
         public IEnumerable<IModel> GetAll()
         {
             return context.Participants.ToList();
@@ -44,6 +52,14 @@ namespace ConferenceSolution.Data
         public bool SaveChanges()
         {
             return (context?.SaveChanges() >= 0);
+        }
+
+        public void Update(string id, IModel model)
+        {
+            Participant participant = context.Participants.First(x => x.Id == id);
+
+            context.Entry(participant).CurrentValues.SetValues(model);
+
         }
     }
 }

@@ -9,7 +9,7 @@ namespace ConferenceSolution.Profilers
         public ParticipantProfiler()
         {
             CreateMap<Participant, ParticipantReadDTO>();
-            CreateMap<ParticipantCreateDTO, Participant>();
+            CreateMap<ParticipantWriteDTO, Participant>();
         }
     }
 }
