@@ -13,12 +13,14 @@ namespace ConferenceSolution.Controllers
     [ApiController]
     public class ParticipantController : ControllerBase
     {
+        private readonly ILogger<ParticipantController> logger;
         private readonly IMapper mapper;
         private readonly IParticipantRepo repository;
-        public ParticipantController(IParticipantRepo repository, IMapper mapper)
+        public ParticipantController(IParticipantRepo repository, IMapper mapper, ILogger<ParticipantController> logger)
         {
             this.repository = repository;
             this.mapper = mapper;
+            this.logger = logger;
         }
 
         [HttpGet]
@@ -43,6 +45,9 @@ namespace ConferenceSolution.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] ParticipantWriteDTO participantCreateDTO)
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
             IModel participant = mapper.Map<Participant>(participantCreateDTO);
             try
             {
@@ -56,26 +61,38 @@ namespace ConferenceSolution.Controllers
             }
             catch (DuplicateParticipantEx ex)
             {
+                logger.LogInformation(ex.Message);
+
                 return Ok(ex.ErrorInfo);
             }
             
         }
 
         [HttpPut("{id}")]
-        public void Put(string id, [FromBody] ParticipantWriteDTO participantCreateDTO)
+        public ActionResult Put(string id, [FromBody] ParticipantWriteDTO participantCreateDTO)
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
             Participant participant = mapper.Map<Participant>(participantCreateDTO);
 
             repository.Update(id, participant);
             repository.SaveChanges();
 
+            return Ok();
+
         }
 
         [HttpDelete("{id}")]
-        public void Delete(string id)
+        public ActionResult Delete(string id)
         {
+            if (string.IsNullOrEmpty(id))
+                return BadRequest();
+
             repository.Delete(id);
             repository.SaveChanges();
+
+            return Ok();
         }
 
         #region "Validations"
