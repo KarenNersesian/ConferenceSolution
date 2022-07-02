@@ -43,6 +43,7 @@ namespace ConferenceSolution.Controllers
         }
 
         [HttpPost]
+        //We could add some validation logic as an Attribute that will run before our action.
         public async Task<ActionResult> Post([FromBody] ParticipantWriteDTO participantCreateDTO)
         {
             if (!ModelState.IsValid)
@@ -96,6 +97,7 @@ namespace ConferenceSolution.Controllers
         }
 
         #region "Validations"
+        //For specific smart type validation.
         private void ValidateParticipantByFullName(Participant participant, ApplicationDbContext context)
         {
 
