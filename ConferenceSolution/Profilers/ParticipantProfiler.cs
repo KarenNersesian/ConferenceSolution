@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using ConferenceShareModel.Models;
 using ConferenceSolution.DTOS;
-using ConferenceSolution.Models;
 
 namespace ConferenceSolution.Profilers
 {

@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using ConferenceSolution.Comparers;
-using ConferenceSolution.DB;
+using ConferenceShareModel.Db;
+using ConferenceShareModel.Models;
+using ConferenceShareModel.Repos;
 using ConferenceSolution.DTOS;
 using ConferenceSolution.Erros;
 using ConferenceSolution.Exceptions;
-using ConferenceSolution.Models;
-using ConferenceSolution.Repos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ConferenceSolution.Controllers
@@ -31,7 +30,7 @@ namespace ConferenceSolution.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ParticipantReadDTO>> Get(string id)
+        public ActionResult<ParticipantReadDTO> Get(string id)
         {
             if (string.IsNullOrEmpty(id))
                 return BadRequest();
@@ -53,7 +52,7 @@ namespace ConferenceSolution.Controllers
                 });
                 await repository.SaveChangesAsync();
 
-                return Ok();
+                return Ok(mapper.Map<ParticipantReadDTO>(participant));
             }
             catch (DuplicateParticipantEx ex)
             {

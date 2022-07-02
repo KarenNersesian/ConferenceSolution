@@ -1,11 +1,13 @@
-﻿using ConferenceSolution.Comparers;
-using ConferenceSolution.DB;
-using ConferenceSolution.Exceptions;
-using ConferenceSolution.Models;
+﻿using ConferenceShareModel.Db;
+using ConferenceShareModel.Models;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ConferenceSolution.Repos
+namespace ConferenceShareModel.Repos
 {
     public class ParticipantRepo : IParticipantRepo
     {
@@ -86,6 +88,7 @@ namespace ConferenceSolution.Repos
         public void Update(string id, IModel model)
         {
             Participant participant = context.Participants.First(x => x.Id == id);
+            model.Id = participant.Id;
 
             context.Entry(participant).CurrentValues.SetValues(model);
 

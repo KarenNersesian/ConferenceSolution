@@ -1,8 +1,12 @@
-﻿using ConferenceSolution.Comparers;
-using ConferenceSolution.DB;
-using ConferenceSolution.Models;
+﻿using ConferenceShareModel.Db;
+using ConferenceShareModel.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ConferenceSolution.Repos
+namespace ConferenceShareModel.Repos
 {
     public interface IParticipantRepo
     {

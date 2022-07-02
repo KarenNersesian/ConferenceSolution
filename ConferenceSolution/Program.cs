@@ -1,5 +1,5 @@
-using ConferenceSolution.DB;
-using ConferenceSolution.Repos;
+using ConferenceShareModel.Db;
+using ConferenceShareModel.Repos;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
