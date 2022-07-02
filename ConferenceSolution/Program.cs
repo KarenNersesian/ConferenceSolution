@@ -1,5 +1,6 @@
 using ConferenceShareModel.Db;
 using ConferenceShareModel.Repos;
+using ConferenceSolution.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+if (Convert.ToBoolean(app.Configuration.GetSection("MockDatabase").Value) == true)
+{
+    DataSeeder.Preperate(app);
 }
 
 app.UseHttpsRedirection();

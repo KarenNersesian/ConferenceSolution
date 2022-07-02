@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConferenceSolution", "Confe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConferenceShareModel", "ConferenceShareModel\ConferenceShareModel.csproj", "{758672B5-A184-48B8-981F-50308C18DA32}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConferenceSolution.API.Test", "ConferenceSolution.API.Test\ConferenceSolution.API.Test.csproj", "{AAD7EA32-A2F7-452A-9040-9963B20E507D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{758672B5-A184-48B8-981F-50308C18DA32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{758672B5-A184-48B8-981F-50308C18DA32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{758672B5-A184-48B8-981F-50308C18DA32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAD7EA32-A2F7-452A-9040-9963B20E507D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAD7EA32-A2F7-452A-9040-9963B20E507D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAD7EA32-A2F7-452A-9040-9963B20E507D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAD7EA32-A2F7-452A-9040-9963B20E507D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -22,4 +22,8 @@
     <ProjectReference Include="..\ConferenceShareModel\ConferenceShareModel.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="ConferenceSolution.API.Test" />
+	</ItemGroup>
+
 </Project>
