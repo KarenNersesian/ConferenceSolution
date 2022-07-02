@@ -1,7 +1,9 @@
 ﻿using ConferenceSolution.Comparers;
 using ConferenceSolution.DB;
+using ConferenceSolution.Exceptions;
 using ConferenceSolution.Models;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace ConferenceSolution.Repos
 {
@@ -12,6 +14,11 @@ namespace ConferenceSolution.Repos
         {
             this.context = context;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void Create([NotNull] IModel model)
         {
             ArgumentNullException.ThrowIfNull(nameof(model));
@@ -20,18 +27,27 @@ namespace ConferenceSolution.Repos
 
             context?.Participants.Add(participant);
         }
-        public void Create(IModel model, IEqualityComparer<Participant> comparer)
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="validatonRule"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public void Create(IModel model, Action<ApplicationDbContext> validatonRule)
         {
             ArgumentNullException.ThrowIfNull(nameof(model));
 
-            Participant participant = model as Participant;
+            validatonRule(context);
 
-            if (context.Participants.Contains(participant, comparer))
-                throw new NotImplementedException();
-
-            context?.Participants.Add(participant);
+            context?.Participants.Add(model as Participant);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void Delete(string id)
         {
             Participant participant = context.Participants.First(x => x.Id == id);
@@ -51,9 +67,22 @@ namespace ConferenceSolution.Repos
 
         public bool SaveChanges()
         {
-            return (context?.SaveChanges() >= 0);
+            return (context.SaveChanges() >= 0);
         }
 
+        public async Task<bool> SaveChangesAsync()
+        {
+            var result = await context.SaveChangesAsync();
+
+            return result >= 0;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void Update(string id, IModel model)
         {
             Participant participant = context.Participants.First(x => x.Id == id);

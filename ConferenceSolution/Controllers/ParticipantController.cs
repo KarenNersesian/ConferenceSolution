@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using ConferenceSolution.Comparers;
+using ConferenceSolution.DB;
 using ConferenceSolution.DTOS;
+using ConferenceSolution.Erros;
+using ConferenceSolution.Exceptions;
 using ConferenceSolution.Models;
 using ConferenceSolution.Repos;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +31,7 @@ namespace ConferenceSolution.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<ParticipantReadDTO> Get(string id)
+        public async Task<ActionResult<ParticipantReadDTO>> Get(string id)
         {
             if (string.IsNullOrEmpty(id))
                 return BadRequest();
@@ -39,12 +42,24 @@ namespace ConferenceSolution.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] ParticipantWriteDTO participantCreateDTO)
+        public async Task<ActionResult> Post([FromBody] ParticipantWriteDTO participantCreateDTO)
         {
             IModel participant = mapper.Map<Participant>(participantCreateDTO);
+            try
+            {
+                repository.Create(participant, (context) => 
+                {
+                    ValidateParticipantByFullName(participant as Participant, context);
+                });
+                await repository.SaveChangesAsync();
 
-            repository.Create(participant, new ParticipantByFullNameComparer());
-            repository.SaveChanges();
+                return Ok();
+            }
+            catch (DuplicateParticipantEx ex)
+            {
+                return Ok(ex.ErrorInfo);
+            }
+            
         }
 
         [HttpPut("{id}")]
@@ -63,5 +78,20 @@ namespace ConferenceSolution.Controllers
             repository.Delete(id);
             repository.SaveChanges();
         }
+
+        #region "Validations"
+        private void ValidateParticipantByFullName(Participant participant, ApplicationDbContext context)
+        {
+
+            var participantFromDb = context.Participants
+                        .Where(x => x.Name == (participant as Participant).Name && x.LastName == (participant as Participant).LastName)
+                        .FirstOrDefault();
+            if (participantFromDb != null)
+                throw new DuplicateParticipantEx(new Erros.ErrorInfo(string.Empty, Enums.ErrorCodeType.DuplicateParticipantWithSameFullName),
+                    "Duplicate participant exception.");
+
+
+        }
+        #endregion
     }
 }
