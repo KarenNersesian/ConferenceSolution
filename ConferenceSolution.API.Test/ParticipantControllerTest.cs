@@ -18,7 +18,6 @@ public class ParticipantControllerTest
     [SetUp]
     public async Task Setup()
     {
-        
     }
 
     [Test]
