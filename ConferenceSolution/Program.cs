@@ -23,7 +23,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-if (Convert.ToBoolean(app.Configuration.GetSection("MockDatabase").Value) == true)
+if (Convert.ToBoolean(app.Configuration.GetSection("MockData").Value) == true)
 {
     DataSeeder.Preperate(app);
 }
